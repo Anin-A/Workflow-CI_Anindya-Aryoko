@@ -15,7 +15,7 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     np.random.seed(42)
 
-    # Ambil argumen dengan aman
+    # Ambil argumen
     n_estimators = int(sys.argv[1]) if len(sys.argv) > 1 else 100
     learning_rate = float(sys.argv[2]) if len(sys.argv) > 2 else 0.1
     file_path = sys.argv[3] if len(sys.argv) > 3 else os.path.join(
@@ -54,26 +54,25 @@ if __name__ == "__main__":
     # Autolog MLflow
     mlflow.sklearn.autolog()
 
-    mlflow.end_run()
+    # Train model
+    model = GradientBoostingClassifier(
+        n_estimators=n_estimators,
+        learning_rate=learning_rate,
+        random_state=42
+    )
+    model.fit(X_train, y_train)
 
-    with mlflow.start_run(run_name="GradientBoosting", nested=True):
-        model = GradientBoostingClassifier(
-            n_estimators=n_estimators,
-            learning_rate=learning_rate,
-            random_state=42
-        )
-        model.fit(X_train, y_train)
+    # Predict
+    y_pred = model.predict(X_test)
 
-        y_pred = model.predict(X_test)
+    # Log model
+    mlflow.sklearn.log_model(
+        sk_model=model,
+        artifact_path="model",
+        input_example=input_example
+    )
 
-        # Log model ke MLflow
-        mlflow.sklearn.log_model(
-            sk_model=model,
-            artifact_path="model",
-            input_example=input_example
-        )
-
-        # Log metric akurasi
-        acc = accuracy_score(y_test, y_pred)
-        print("Accuracy:", acc)
-        mlflow.log_metric("accuracy", acc)
+    # Log metric akurasi
+    acc = accuracy_score(y_test, y_pred)
+    print("Accuracy:", acc)
+    mlflow.log_metric("accuracy", acc)
