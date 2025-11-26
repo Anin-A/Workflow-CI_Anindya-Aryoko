@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  CSV_URL: "MLproject/data_preprocessing/loan_approval_dataset_preprocessing.csv"
+  CSV_URL: "data_preprocessing/loan_approval_dataset_preprocessing.csv"
   MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
   MLFLOW_ARTIFACT_URI: "${{ github.workspace }}/mlruns"
 
@@ -44,7 +44,7 @@ jobs:
       # 5. Run MLflow Project
       - name: Run MLflow project
         run: |
-          mlflow run MLproject --env-manager=local
+          mlflow run MLproject/ --env-manager=local
 
       # 6. Get latest MLflow run_id
       - name: Get latest MLflow run_id
@@ -56,7 +56,7 @@ jobs:
       # 7. Build Docker Model
       - name: Build Docker Model
         run: |
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "loan"
+          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "loan-approval-mlflow"
 
       # 8. Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -68,12 +68,12 @@ jobs:
       # 9. Tag Docker Image
       - name: Tag Docker Image
         run: |
-          docker tag loan ${{ secrets.DOCKER_HUB_USERNAME }}/loan:latest
+          docker tag loan-approval-mlflow ${{ secrets.DOCKER_HUB_USERNAME }}/loan-approval-mlflow:latest
 
       # 10. Push Docker Image to Docker Hub
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/loan:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/loan-approval-mlflow:latest
 
       # 11. Save mlruns to GitHub Repository
       - name: Save mlruns to repo
