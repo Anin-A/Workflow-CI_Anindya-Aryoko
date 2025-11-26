@@ -44,7 +44,7 @@ jobs:
       # 5. Run MLflow Project
       - name: Run MLflow project
         run: |
-          mlflow run . --env-manager=local
+          mlflow run MLproject --env-manager=local
 
       # 6. Get latest MLflow run_id
       - name: Get latest MLflow run_id
