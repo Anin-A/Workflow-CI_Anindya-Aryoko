@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Dell/Downloads/MLproject/mlruns/0/dc8a92cb1978464bb308df677072fd05/artifacts
+end_time: 1764152804899
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: dc8a92cb1978464bb308df677072fd05
+run_name: likeable-yak-727
+run_uuid: dc8a92cb1978464bb308df677072fd05
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764152790503
+status: 3
+tags: []
+user_id: Dell

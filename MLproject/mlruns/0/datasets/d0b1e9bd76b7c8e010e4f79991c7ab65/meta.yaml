@@ -1,0 +1,10 @@
+digest: 4391cd0b
+name: dataset
+profile: '{"num_rows": 449, "num_elements": 2245}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "income", "required": true},
+  {"type": "double", "name": "credit_score", "required": true}, {"type": "double",
+  "name": "loan_amount", "required": true}, {"type": "double", "name": "years_employed",
+  "required": true}, {"type": "double", "name": "points", "required": true}]}'
+source: '{"tags": {"mlflow.user": "Dell", "mlflow.source.name": "modelling.py", "mlflow.source.type":
+  "LOCAL"}}'
+source_type: code
