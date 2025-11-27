@@ -55,24 +55,19 @@ if __name__ == "__main__":
     mlflow.sklearn.autolog()
 
     # Train model
-    model = GradientBoostingClassifier(
-        n_estimators=n_estimators,
-        learning_rate=learning_rate,
-        random_state=42
-    )
-    model.fit(X_train, y_train)
-
-    # Predict
-    y_pred = model.predict(X_test)
-
-    # Log model
-    mlflow.sklearn.log_model(
-        sk_model=model,
-        artifact_path="model",
-        input_example=input_example
-    )
-
-    # Log metric akurasi
-    acc = accuracy_score(y_test, y_pred)
-    print("Accuracy:", acc)
-    mlflow.log_metric("accuracy", acc)
+    with mlflow.start_run(run_name="GradientBoosting"):
+        model = GradientBoostingClassifier(
+            n_estimators=n_estimators,
+            learning_rate=learning_rate,
+            random_state=42
+        )
+        model.fit(X_train, y_train)
+        
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="model",
+            input_example=input_example
+        )
+        
+        acc = accuracy_score(y_test, y_pred)
+        mlflow.log_metric("accuracy", acc)
