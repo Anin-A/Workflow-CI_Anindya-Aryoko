@@ -56,7 +56,7 @@ jobs:
       # 7. Build Docker Model
       - name: Build Docker Model
         run: |
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "loan-approval-mlflow"
+          mlflow models build-docker --model-uri "runs:/${{ env.RUN_ID }}/model" --name "loan"
 
       # 8. Log in to Docker Hub
       - name: Log in to Docker Hub
@@ -68,12 +68,12 @@ jobs:
       # 9. Tag Docker Image
       - name: Tag Docker Image
         run: |
-          docker tag loan-approval-mlflow ${{ secrets.DOCKER_HUB_USERNAME }}/loan-approval-mlflow:latest
+          docker tag loan ${{ secrets.DOCKER_HUB_USERNAME }}/loan:latest
 
       # 10. Push Docker Image to Docker Hub
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/loan-approval-mlflow:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/loan:latest
 
       # 11. Save mlruns to GitHub Repository
       - name: Save mlruns to repo
