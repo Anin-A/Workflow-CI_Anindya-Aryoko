@@ -66,7 +66,7 @@ jobs:
       - name: Debug run_id
         run: |
           echo "RUN_ID=${{ env.RUN_ID }}"
-          ls -R mlruns/0/
+          ls -R mlruns || true
 
       # 9. Build Docker Model
       - name: Build Docker Model
