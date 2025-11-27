@@ -10,7 +10,8 @@ on:
 
 env:
   CSV_URL: "MLproject/data_preprocessing/loan_approval_dataset_preprocessing.csv"
-  MLFLOW_TRACKING_URI: "file:./mlruns"
+  MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
+  MLFLOW_ARTIFACT_URI: "${{ github.workspace }}/mlruns"
 
 jobs:
   build:
@@ -43,7 +44,9 @@ jobs:
       # 5. Run MLflow Project
       - name: Run MLflow project
         run: |
-          mlflow run MLproject/ --env-manager=local
+          mlflow run MLproject/ --env-manager=local \
+          --experiment-name default \
+          --storage-dir mlruns
 
       # 6. Get latest MLflow run_id
       - name: Get latest MLflow run_id
