@@ -10,7 +10,7 @@ on:
 
 env:
   CSV_URL: "MLproject/data_preprocessing/loan_approval_dataset_preprocessing.csv"
-  MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
+  MLFLOW_TRACKING_URI: "http://127.0.0.1:5000"
   MLFLOW_ARTIFACT_URI: "${{ github.workspace }}/mlruns"
 
 jobs:
@@ -45,10 +45,10 @@ jobs:
       - name: Start MLflow server
         run: |
           mlflow server --backend-store-uri sqlite:///mlflow.db \
-          --default-artifact-root file:./mlruns \
-          --host 127.0.0.1 --port 5000 &
+                        --default-artifact-root file:./mlruns \
+                        --host 127.0.0.1 --port 5000 &
           sleep 5
-          export MLFLOW_TRACKING_URI=http://127.0.0.1:5000
+          echo "MLFLOW_TRACKING_URI=http://127.0.0.1:5000" >> $GITHUB_ENV
 
       # 6. Run MLflow Project
       - name: Run MLflow project
@@ -62,8 +62,8 @@ jobs:
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
-      # 8. Debug
-      - name: Debug run_id
+      # 8. Debug artifacts
+      - name: Debug artifacts
         run: |
           echo "RUN_ID=${{ env.RUN_ID }}"
           ls -R mlruns || true
