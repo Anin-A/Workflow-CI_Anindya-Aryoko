@@ -62,12 +62,6 @@ jobs:
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
-      # 8. Debug
-      - name: Debug run_id
-        run: |
-          echo "RUN_ID=${{ env.RUN_ID }}"
-          ls -R mlruns/0/
-
       # 9. Build Docker Model
       - name: Build Docker Model
         run: |
